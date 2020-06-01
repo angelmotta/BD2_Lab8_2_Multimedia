@@ -3,6 +3,7 @@ import math
 
 csvFile = "iris.data"
 myCollection = np.loadtxt(csvFile, delimiter=',', usecols=range(4))
+myCollectionk = np.genfromtxt(csvFile, delimiter=',', dtype=None)
 
 def precision(result, tipo):
     objRP = 0
@@ -39,6 +40,25 @@ def rangeSearch(Q, r, numObj):
             result.append(objectIris)
         i += 1
     return result
+
+def knnSearch(Q, k, numObj):
+    print("--- knnSearch ---")
+    result = []
+    dicRes = {}
+    i = 0
+    for objectIris in myCollection:
+        if i == numObj:     # el objeto consultado es omitido de la colección
+            i += 1
+            continue
+        dist = ED(Q, objectIris)
+        dist = dist
+        result.append(dist)
+        dicRes[dist] = myCollectionk[i]
+        i += 1
+    result.sort()
+    for i in range(k):
+        print("Distancia: ", result[i])
+        print("Objeto detalles: ", dicRes[result[i]])
 
 ## Q15 ##
 print(" --- Q 15 ----")
@@ -81,3 +101,11 @@ print("Precision: ", prec)
 result = rangeSearch(myCollection[121], 5, 15)
 prec = precision(result, "Iris-virginica")
 print("Precision: ", prec)
+
+
+## KSearch ##
+knnSearch(myCollection[15], 2, 15)
+knnSearch(myCollection[15], 4, 15)
+knnSearch(myCollection[15], 8, 15)
+knnSearch(myCollection[15], 16, 15)
+knnSearch(myCollection[15], 32, 15)
